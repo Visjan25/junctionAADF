@@ -1,0 +1,49 @@
+<template>
+    <lightning-card title="Tender Details" icon-name="standard:opportunity">
+        <div class="slds-p-around_medium">
+            <template if:true={record}>
+                <lightning-record-view-form
+                    record-id={recordId}
+                    object-api-name="Tender__c"
+                    density="view"
+                >
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning-output-field field-name="Name"></lightning-output-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning-output-field field-name="Tender_ID__c"></lightning-output-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning-output-field field-name="Ceiling_Fund__c"></lightning-output-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning-output-field field-name="Deadline__c"></lightning-output-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning-output-field field-name="Status__c"></lightning-output-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning-output-field field-name="Core_Team_Requirements__c"></lightning-output-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning-output-field field-name="Criteria__c"></lightning-output-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                            <lightning-output-field field-name="Qualifying_Criteria__c"></lightning-output-field>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-p-around_small">
+                            <lightning-output-field field-name="Description__c"></lightning-output-field>
+                        </div>
+                    </div>
+                </lightning-record-view-form>
+            </template>
+            <template if:true={error}>
+                <p class="slds-text-color_destructive">Error: {error}</p>
+            </template>
+            <template if:false={record}>
+                <p>No tender record found for ID: {recordId}</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>

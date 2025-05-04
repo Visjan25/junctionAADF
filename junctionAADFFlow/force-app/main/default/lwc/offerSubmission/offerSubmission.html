@@ -1,0 +1,233 @@
+<!-- offerSubmission.html -->
+<template>
+  <lightning-card title="Submit Offer" icon-name="standard:proposal">
+    <div class="slds-p-around_medium">
+      <!-- Offer Details Section -->
+      <div class="slds-section slds-is-open">
+        <h3 class="slds-section__title slds-theme_shade">
+          <span class="slds-truncate slds-p-horizontal_small" title="Offer Details">Offer Details</span>
+        </h3>
+        <div class="slds-section__content">
+          <div class="slds-grid slds-gutters slds-wrap">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-bottom_medium">
+              <lightning-input
+                label="Financial Bid (USD, VAT Excl)"
+                type="number"
+                formatter="currency"
+                step="0.01"
+                value={pricing}
+                onchange={handlePricingChange}
+              ></lightning-input>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-p-bottom_medium">
+              <lightning-textarea
+                label="Similar Experience"
+                value={similarExperience}
+                onchange={handleSimilarExperienceChange}
+              ></lightning-textarea>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-bottom_medium">
+              <lightning-input
+                type="checkbox"
+                label="Eligibility Declaration"
+                checked={eligibility}
+                onchange={handleEligibilityChange}
+              ></lightning-input>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-bottom_medium">
+              <lightning-input
+                type="checkbox"
+                label="No Conflict of Interest"
+                checked={conflictFree}
+                onchange={handleConflictFreeChange}
+              ></lightning-input>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-p-bottom_medium">
+              <lightning-file-upload
+                label="QKB Extract, Payroll"
+                multiple
+                accept={acceptedFormats}
+                onuploadfinished={handleFileUpload}
+              ></lightning-file-upload>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contracts Section -->
+      <div class="slds-section slds-is-open slds-p-top_medium">
+        <h3 class="slds-section__title slds-theme_shade">
+          <span class="slds-truncate slds-p-horizontal_small" title="Contracts">Contracts</span>
+        </h3>
+        <div class="slds-section__content">
+          <template for:each={contracts} for:item="contract" for:index="index">
+            <div key={contract.Id} class="slds-box slds-m-bottom_small slds-theme_default">
+              <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-p-bottom_small">
+                  <lightning-input
+                    label="Subject"
+                    name="Subject__c"
+                    value={contract.Subject__c}
+                    data-index={index}
+                    onchange={handleContractChange}
+                  ></lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-p-bottom_small">
+                  <lightning-input
+                    label="Value"
+                    name="Value__c"
+                    type="number"
+                    formatter="currency"
+                    step="0.01"
+                    value={contract.Value__c}
+                    data-index={index}
+                    onchange={handleContractChange}
+                  ></lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-p-bottom_small">
+                  <lightning-input
+                    label="Investor"
+                    name="Investor__c"
+                    value={contract.Investor__c}
+                    data-index={index}
+                    onchange={handleContractChange}
+                  ></lightning-input>
+                </div>
+              </div>
+              <div class="slds-grid slds-grid_align-end slds-p-top_small">
+                <lightning-button
+                  label="Remove Contract"
+                  variant="destructive"
+                  data-index={index}
+                  onclick={removeContract}
+                  class="slds-m-left_x-small"
+                ></lightning-button>
+              </div>
+            </div>
+          </template>
+          <div class="slds-p-top_small">
+            <lightning-button
+              label="Add Contract"
+              variant="neutral"
+              onclick={addContract}
+            ></lightning-button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Team Members Section -->
+      <div class="slds-section slds-is-open slds-p-top_medium">
+        <h3 class="slds-section__title slds-theme_shade">
+          <span class="slds-truncate slds-p-horizontal_small" title="Team Members">Team Members</span>
+        </h3>
+        <div class="slds-section__content">
+          <template for:each={teamMembers} for:item="member" for:index="index">
+            <div key={member.Id} class="slds-box slds-m-bottom_small slds-theme_default">
+              <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-bottom_small">
+                  <lightning-input
+                    label="Full Name"
+                    name="Full_Name__c"
+                    value={member.Full_Name__c}
+                    data-index={index}
+                    onchange={handleTeamMemberChange}
+                    required
+                  ></lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-bottom_small">
+                  <lightning-combobox
+                    label="Task Assigned"
+                    name="Task_Assigned__c"
+                    value={member.Task_Assigned__c}
+                    placeholder="Select Task"
+                    options={member.options}
+                    data-index={index}
+                    onchange={handleTeamMemberChange}
+                    required
+                  ></lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-p-bottom_small">
+                  <lightning-input
+                    label="Birth Year"
+                    name="Birth_Year__c"
+                    type="number"
+                    min="1900"
+                    max="2099"
+                    value={member.Birth_Year__c}
+                    data-index={index}
+                    onchange={handleTeamMemberChange}
+                  ></lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-p-bottom_small">
+                  <lightning-input
+                    label="Education"
+                    name="Education__c"
+                    value={member.Education__c}
+                    data-index={index}
+                    onchange={handleTeamMemberChange}
+                  ></lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-p-bottom_small">
+                  <lightning-input
+                    label="Experience (Years)"
+                    name="Experience_Years__c"
+                    type="number"
+                    min="0"
+                    value={member.Experience_Years__c}
+                    data-index={index}
+                    onchange={handleTeamMemberChange}
+                  ></lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-p-bottom_small">
+                  <lightning-textarea
+                    label="Licenses"
+                    name="Licenses__c"
+                    value={member.Licenses__c}
+                    data-index={index}
+                    onchange={handleTeamMemberChange}
+                  ></lightning-textarea>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-p-bottom_small">
+                  <lightning-file-upload
+                    label="Member Documents"
+                    name="MemberDocuments"
+                    multiple
+                    accept={acceptedFormats}
+                    data-index={index}
+                    onuploadfinished={handleMemberFileUpload}
+                  ></lightning-file-upload>
+                </div>
+              </div>
+              <div class="slds-grid slds-grid_align-end slds-p-top_small">
+                <lightning-button
+                  label="Remove Team Member"
+                  variant="destructive"
+                  data-index={index}
+                  onclick={removeTeamMember}
+                  class="slds-m-left_x-small"
+                ></lightning-button>
+              </div>
+            </div>
+          </template>
+          <div class="slds-p-top_small">
+            <lightning-button
+              label="Add Team Member"
+              variant="neutral"
+              onclick={addTeamMember}
+            ></lightning-button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="slds-p-top_medium">
+        <lightning-button
+          label="Submit Offer"
+          variant="brand"
+          onclick={submitOffer}
+          class="slds-m-top_medium"
+        ></lightning-button>
+      </div>
+    </div>
+  </lightning-card>
+</template>

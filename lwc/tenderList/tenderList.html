@@ -1,0 +1,26 @@
+<template>
+    <lightning-card title="Published Tenders" icon-name="standard:opportunity">
+        <div class="slds-p-around_medium">
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_4-of-12">
+                    <lightning-input
+                        type="search"
+                        label="Search by Tender Name"
+                        value={searchKey}
+                        onchange={handleSearchChange}
+                        placeholder="Enter tender name..."
+                    ></lightning-input>
+                </div>
+            </div>
+            <lightning-datatable
+                data={filteredTenders}
+                columns={columns}
+                key-field="Id"
+                hide-checkbox-column
+            ></lightning-datatable>
+            <template if:false={filteredTenders.length}>
+                <p class="slds-p-top_medium">No published tenders found.</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,11 @@
+<apex:page controller="PreviewSignedPDFController" showHeader="false" sidebar="false">
+    <apex:outputPanel rendered="{!versionData != null}">
+        <apex:iframe src="data:application/pdf;base64,{!versionData}" height="700px" width="100%"/>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!versionData == null}">
+        <p>Failed to load PDF document. Use the link below to download the PDF.</p>
+        <apex:outputLink value="/sfc/servlet.shepherd/version/download/{!cvId}" target="_blank">
+            Download PDF
+        </apex:outputLink>
+    </apex:outputPanel>
+</apex:page>

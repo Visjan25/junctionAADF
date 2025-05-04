@@ -1,0 +1,21 @@
+<apex:page controller="OfferPDFController" renderAs="PDF" showHeader="false" sidebar="false">
+    <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; font-size: 11pt; }
+                .signature-img { width: 200px; height: 50px; }
+                .no-signature { font-style: italic; color: #666; }
+            </style>
+        </head>
+        <body>
+            <h1>Test Signature</h1>
+            <p>Offer: <apex:outputText value="{!offer.Name}"/></p>
+            <p>Signature:</p>
+            <apex:image url="{!'data:image/png;base64,' + signatureData}" styleClass="signature-img" rendered="{!signatureData != null}"/>
+            <p class="no-signature" rendered="{!signatureData == null}">No signature provided</p>
+            <!-- Hardcoded for testing -->
+            <p>Hardcoded Signature:</p>
+            <apex:image url="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" styleClass="signature-img"/>
+        </body>
+    </html>
+</apex:page>

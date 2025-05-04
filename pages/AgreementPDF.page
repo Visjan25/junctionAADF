@@ -1,0 +1,260 @@
+<apex:page controller="OfferPDFController" renderAs="PDF" showHeader="false" sidebar="false" standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false">
+<html>
+<head>
+    <style type="text/css">
+        @page {
+            size: letter;
+            margin: 1cm;
+            @bottom-center {
+                content: "Page " counter(page) " of " counter(pages);
+            }
+        }
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 11pt;
+            line-height: 1.3;
+        }
+        h3 {
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 5px;
+            text-align: left;
+            vertical-align: top;
+        }
+        .form-header {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #000;
+        }
+        .underline {
+            text-decoration: underline;
+        }
+        .signature-line {
+            border-top: 1px solid #000;
+            width: 80%;
+            margin-top: 30px;
+            margin-bottom: 5px;
+        }
+        .page-break {
+            page-break-before: always;
+        }
+        .checkbox {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 1px solid #000;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Form #1: Financial Offer -->
+   <!-- Form #1: Financial Offer -->
+    <div class="form-header">Form # 1: Financial Offer</div>
+    <div class="form-header">On behalf of the Applicant: <apex:outputText value="{!vendor.Name}"/></div>
+    
+    <p><i>To: Albanian-American Development Foundation;</i></p>
+    
+    <p>Having examined the required Tender documents for the above-mentioned procedure, we Bid to execute and complete the required services for the calculated amount of</p>
+    
+    <h3><apex:outputText value="{!IF(offer.Pricing__c != null, offer.Pricing__c, '250000')}"/> USD (Without VAT)</h3>
+    
+    <p>Our Bid is valid for 150 calendar days from the date fixed for the Proposal submission deadline by the Tender Documents, and it shall remain binding upon us and may be accepted at any time before the expiration of that period;</p>
+    
+    <p>To Bid out the above-mentioned price, we acknowledge that we have taken into consideration all the Tender documents provided including appendixes.</p>
+    
+    <p>We undertake, if our bid is accepted, to start the services within <apex:outputText value="{!startDays}"/> working days from the date of signing the contract and complete and deliver the services by the contract within the required timelines, calculated from the date of starting the services.</p>
+    
+    <p>We understand that this Proposal, together with your written acceptance thereof included in your notification of award, shall constitute a binding contract between us, until a formal contract is prepared and executed;</p>
+    
+    <p>We understand and accept that the Albanian-American Development Foundation (AADF) is not bound to choose any proposal that may be received, and that any or all proposals may be rejected partially or completely without assigning any reason for such rejection.</p>
+    
+    <p>If awarded the contract, the person named below shall act as the Applicant's Representative:</p>
+    
+    <div class="signature-line"></div>
+    <p><apex:outputText value="{!legalRepName}"/></p>
+    <p>Legal Representative</p>
+    
+   <!-- Form #2: Similar Experience -->
+    <div class="page-break"></div>
+    <div class="form-header">Form # 2: Similar Experience (Attach Contracts)</div>
+    <div class="form-header">Applicant: <apex:outputText value="{!vendor.Name}"/></div>
+    
+    <table>
+        <tr>
+            <th colspan="4"><b>Contract of Similar Size and Nature</b></th>
+        </tr>
+        <tr>
+            <td colspan="4">Contract Identification and Description</td>
+        </tr>
+        <tr>
+            <td colspan="2">Contract presented in response to qualification requirements</td>
+            <td colspan="2">Contract presented for additional points</td>
+        </tr>
+        <tr>
+            <td>Award Date</td>
+            <td><apex:outputText value="{!IF(offer.Submission_Date__c != null, TEXT(offer.Submission_Date__c - 365), '2024-01-01')}"/></td>
+            <td>Completion Date</td>
+            <td><apex:outputText value="{!IF(offer.Submission_Date__c != null, TEXT(offer.Submission_Date__c), '2025-01-01')}"/></td>
+        </tr>
+        <tr>
+            <td>Role in Contract</td>
+            <td>Prime Contractor <span class="checkbox">☑</span></td>
+            <td colspan="2">Subcontractor <span class="checkbox">□</span></td>
+        </tr>
+        <tr>
+            <td>Total Contract Amount</td>
+            <td colspan="3"><b><apex:outputText value="{!IF(offer.Pricing__c != null, offer.Pricing__c, '250000')}"/> USD</b></td>
+        </tr>
+        <tr>
+            <td>If a partner in a Joint-Venture or Sub-contractor, specify participation in the total contract amount</td>
+            <td>Percent of Total <span class="checkbox">□</span></td>
+            <td colspan="2">Amount <span class="checkbox">□</span></td>
+        </tr>
+        <tr>
+            <td rowspan="4">Contracted By:<br/><br/>Address<br/><br/>Contact Name<br/><br/>Telephone/Mobile Number:<br/><br/>E-mail:</td>
+            <td colspan="3">
+                <apex:outputText value="{!vendor.Name}"/><br/>
+                <apex:outputText value="{!vendor.BillingStreet}, {!vendor.BillingCity}, {!vendor.BillingCountry}"/><br/>
+                <apex:outputText value="{!legalRepName}"/><br/>
+                +355 123 456 789<br/>
+                info@samplevendor.com
+            </td>
+        </tr>
+        <tr><td colspan="3"></td></tr>
+        <tr><td colspan="3"></td></tr>
+        <tr><td colspan="3"></td></tr>
+        <tr>
+            <td colspan="4"><b>Description of the similarity (use the space below):</b></td>
+        </tr>
+        <tr>
+            <td colspan="4" height="100px"><apex:outputText value="{!similarExperienceDescription}"/></td>
+        </tr>
+    </table>
+    
+    <div class="page-break"></div>
+    <div class="form-header">Form # 3: Contracts in Process/Committed</div>
+    <div class="form-header">Applicant: <apex:outputText value="{!vendor.Name}"/></div>
+    
+    <table>
+        <tr>
+            <th>No.</th>
+            <th>Subject of Contract</th>
+            <th>Value of Contract</th>
+            <th>Investor Contact Address, Tel</th>
+            <th>Estimated Completion Date</th>
+        </tr>
+        <apex:repeat value="{!contracts}" var="contract" first="0" rows="5">
+            <tr>
+                <td><apex:outputText value="{!contract_number + 1}"/></td>
+                <td><apex:outputText value="{!contract.Subject__c}"/></td>
+                <td><apex:outputText value="{!contract.Value__c}"/></td>
+                <td><apex:outputText value="{!contract.Investor__c}"/></td>
+                <td><apex:outputText value="{!IF(contract.Completion_Date__c != null, TEXT(contract.Completion_Date__c), '')}"/></td>
+            </tr>
+        </apex:repeat>
+    
+    </table>
+    
+    <p>Applicants should provide information about their <b>current commitments</b> on all contracts that have been awarded, or for which a letter of intent or acceptance has been received, or for contracts approaching completion, but for which an unqualified, full completion certificate has yet to be issued.</p>
+    
+    <!-- Form #4: Proposed Team -->
+    <div class="page-break"></div>
+    <div class="form-header">Form # 4: Proposed Team</div>
+    <div class="form-header">Applicant: <apex:outputText value="{!vendor.Name}"/></div>
+    
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Name, surname</th>
+            <th>Birthyear</th>
+            <th>Education</th>
+            <th>Task Assigned</th>
+            <th>Licenses (If relevant)</th>
+            <th>Experience in assigned task (years)</th>
+        </tr>
+        <apex:repeat value="{!teamMembers}" var="member" first="0" rows="9">
+            <tr>
+                <td><apex:outputText value="{!member_number + 1}"/></td>
+                <td><apex:outputText value="{!member.Full_Name__c}"/></td>
+                <td><apex:outputText value="{!member.Birth_Year__c}"/></td>
+                <td><apex:outputText value="{!member.Education__c}"/></td>
+                <td><apex:outputText value="{!member.Task_Assigned__c}"/></td>
+                <td>N/A</td> <!-- Static: Licenses__c not in schema -->
+                <td><apex:outputText value="{!member.Experience_Years__c}"/></td>
+            </tr>
+        </apex:repeat>
+        <!-- Fill remaining rows if fewer than 9 team members -->
+
+    </table>
+    
+    
+    <!-- Form #5: Declaration of Eligibility -->
+    <div class="page-break"></div>
+    <div class="form-header">Form # 5: Declaration of Eligibility</div>
+    
+    <p>I, the undersigned</p>
+    <div class="signature-line"></div>
+    <p><i><apex:outputText value="{!legalRepName} (ID: 123456789)"/></i></p>
+    
+    <p>Legal Representative of:</p>
+    <div class="signature-line"></div>
+    <p><i><apex:outputText value="{!vendor.Name}, {!vendor.BillingStreet}, {!vendor.BillingCity}, {!vendor.BillingCountry}"/></i></p>
+    
+    <p>Declare that the following conditions are applicable to us;</p>
+    
+    <ul>
+        <li>We are a registered company.</li>
+        <li>We are not bankrupt or in the process of going bankrupt.</li>
+        <li>We have not been convicted for an offense concerning professional conduct.</li>
+        <li>We have not been guilty of grave professional misconduct (proven by any means which the contracting authorities can justify).</li>
+        <li>We have fulfilled obligations related to payment of social security and taxes.</li>
+        <li>We are not guilty of serious misinterpretation in supplying information.</li>
+        <li>We were not declared in serious fault of implementation owing to a breach of contractual obligations.</li>
+        <li>We do not employ personnel below the legal working age.</li>
+        <li>We provide basic social rights and fair working conditions to our employees.</li>
+        <li>We are not on any list of sanctioned parties issued by the United States Government, United Nations and European Union.</li>
+    </ul>
+    
+    <p><b>Signature</b></p>
+    <p><b>Date: <apex:outputText value="{!TODAY()}"/></b></p>
+    
+    <!-- Form #6: Conflict of Interest Statement -->
+    <div class="page-break"></div>
+    <div class="form-header">Form # 6: Conflict of Interest Statement</div>
+    <div class="form-header">Applicant: <apex:outputText value="{!vendor.Name}"/></div>
+    
+    <p>I declare that:</p>
+    
+    <ol>
+        <li>I or the company I represent, <span class="underline"><apex:outputText value="{!IF(offer.Conflict_of_Interest__c, 'do not', 'do')}"/></span> have any compensation arrangement or other interest in or affiliation with any director or manager of AADF.</li>
+        <li>I or the company that I represent, <span class="underline"><apex:outputText value="{!IF(offer.Conflict_of_Interest__c, 'do not', 'do')}"/></span> have any other circumstances that may, in fact or in appearance, make it difficult to exercise independence, objective judgment or otherwise perform effectively in my duties as a contractor, if selected.</li>
+    </ol>
+    
+    <p>If any of the above is not true or requires an explanation please describe the relevant facts:</p>
+    
+    <div style="border: 1px solid #000; height: 100px; margin: 20px 0;">
+        <apex:outputText value="{!IF(offer.Conflict_of_Interest__c, 'No conflicts to report.', 'Potential conflict with AADF director; details to be discussed.')}"/>
+    </div>
+    
+    <p>Name and signature of the Applicant's Legal Representative: <apex:outputText value="{!legalRepName}"/></p>
+    
+    <p>Date: <apex:outputText value="{!TODAY()}"/></p>
+    
+</body>
+</html>
+</apex:page>
